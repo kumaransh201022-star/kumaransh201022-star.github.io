@@ -1,0 +1,18 @@
+body {
+background-color: #15b6b0;
+}
+#Name {
+color: #ffffff;
+text-align: center;
+ text-shadow: 0 0 10px #e0f7fa, 0 0 20px #e0f7fa;
+}
+#Namepg {
+    color:#e0f7fa;
+    text-align: center;
+    opacity: 0;
+animation: fadeIn 2s ease forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
