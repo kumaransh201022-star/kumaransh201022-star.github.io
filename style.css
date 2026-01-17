@@ -1,18 +1,199 @@
+/* ================================
+   BASIC STYLING - BEGINNER FRIENDLY
+   ================================ */
+
+/* Body - पूरे page की background और font */
 body {
-background-color: #15b6b0;
-}
-#Name {
-color: #ffffff;
-text-align: center;
- text-shadow: 0 0 10px #e0f7fa, 0 0 20px #e0f7fa;
-}
-#Namepg {
-    color:#e0f7fa;
-    text-align: center;
-    opacity: 0;
-animation: fadeIn 2s ease forwards;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-@keyframes fadeIn {
-  to { opacity: 1; }
+/* ================================
+   HEADER SECTION - TOP PART
+   ================================ */
+
+.header-section {
+  text-align: center;
+  margin-bottom: 50px;
+  margin-top: 30px;
+}
+
+/* Main Name Heading */
+#Name {
+  color: #ffffff;
+  font-size: 2.5em;
+  margin: 0 0 10px 0;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+/* Tagline / Subtitle */
+#Namepg {
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 1em;
+  margin: 0 0 5px 0;
+}
+
+/* Location */
+#location {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.9em;
+  margin: 0;
+}
+
+/* ================================
+   SECTION STYLING
+   ================================ */
+
+/* सभी sections के लिए common styling */
+section {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 20px auto;
+  max-width: 900px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Section के heading */
+.section-title {
+  text-align: center;
+  color: #ffffff;
+  font-size: 1.8em;
+  margin-top: 0;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
+  padding: 15px;
+  border-radius: 10px;
+}
+
+/* Section के content */
+.section-content {
+  color: rgba(255, 255, 255, 0.95);
+  line-height: 1.8;
+  font-size: 1em;
+}
+
+.section-content p {
+  margin: 0 0 15px 0;
+}
+
+/* ================================
+   SKILL BOXES
+   ================================ */
+
+.skill-box {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 10px;
+  border-left: 4px solid rgba(240, 87, 108, 0.8);
+}
+
+.skill-box h3 {
+  color: #fff;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.2em;
+}
+
+.skill-box p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ================================
+   LIST STYLING
+   ================================ */
+
+.info-list {
+  list-style-position: inside;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.info-list li {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+/* ================================
+   FOOTER
+   ================================ */
+
+.footer {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 20px;
+  margin-top: 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ================================
+   MOBILE RESPONSIVE DESIGN
+   ================================ */
+
+@media (max-width: 768px) {
+  /* Mobile के लिए कम padding */
+  body {
+    padding: 10px;
+  }
+
+  /* Mobile पर छोटा font */
+  #Name {
+    font-size: 2em;
+  }
+
+  #Namepg {
+    font-size: 0.9em;
+  }
+
+  /* Sections को पतला बनाएं */
+  section {
+    padding: 20px;
+    margin: 15px auto;
+  }
+
+  /* Title को छोटा करें */
+  .section-title {
+    font-size: 1.4em;
+    padding: 10px;
+  }
+
+  /* Content को छोटा करें */
+  .section-content {
+    font-size: 0.95em;
+  }
+
+  /* Skill box को छोटा करें */
+  .skill-box {
+    padding: 12px;
+    margin: 10px 0;
+  }
+
+  .skill-box h3 {
+    font-size: 1.1em;
+  }
+}
+
+/* Extra small devices - बहुत छोटी screen */
+@media (max-width: 480px) {
+  body {
+    padding: 8px;
+  }
+
+  #Name {
+    font-size: 1.6em;
+  }
+
+  section {
+    padding: 15px;
+  }
+
+  .section-title {
+    font-size: 1.2em;
+  }
 }
