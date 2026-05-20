@@ -1,4 +1,3 @@
-// Hamburger menu toggle logic
 const hamburger = document.querySelector('.hamburger');
 const navDrawer = document.querySelector('.nav-drawer');
 
@@ -19,7 +18,6 @@ if (hamburger && navDrawer) {
   }));
 }
 
-// Scroll reveal for sections
 const revealItems = document.querySelectorAll('.reveal');
 
 if (revealItems.length) {
