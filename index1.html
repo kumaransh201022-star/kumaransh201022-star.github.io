@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RentSphere | Rent Anything, Anytime</title>
+  <meta name="description" content="RentSphere is a premium online rental marketplace where you can rent products instead of buying them.">
+  
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+
+  <style>
+    /* Home Page Specific Styles */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      padding-top: 80px; /* Offset for navbar */
+      background: radial-gradient(circle at top right, var(--primary-light), transparent 40%),
+                  radial-gradient(circle at bottom left, rgba(139, 92, 246, 0.1), transparent 40%);
+    }
+    .hero-content {
+      max-width: 600px;
+      z-index: 2;
+    }
+    .hero-image-wrapper {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 45vw;
+      max-width: 800px;
+      z-index: 1;
+      display: none;
+    }
+    @media (min-width: 1024px) {
+      .hero-image-wrapper { display: block; }
+    }
+    .hero-img {
+      border-radius: var(--radius-xl) 0 0 var(--radius-xl);
+      box-shadow: var(--shadow-lg);
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--bg-glass);
+      backdrop-filter: blur(8px);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--bg-glass-border);
+      margin-bottom: var(--spacing-md);
+      font-weight: 500;
+      color: var(--primary-color);
+    }
+
+    .stats-section {
+      background: var(--bg-secondary);
+      padding: var(--spacing-2xl) 0;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .stat-item h3 {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 0.25rem;
+    }
+
+    .category-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: var(--spacing-xl);
+      text-align: center;
+      cursor: pointer;
+    }
+    .category-icon {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      background: var(--primary-light);
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all var(--transition-normal);
+    }
+    .category-card:hover .category-icon {
+      transform: scale(1.1);
+      background: var(--primary-color);
+      color: #fff;
+    }
+
+    .product-img-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 66%; /* 3:2 aspect ratio */
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--spacing-md);
+    }
+    .product-img-wrapper img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform var(--transition-slow);
+    }
+    .card:hover .product-img-wrapper img {
+      transform: scale(1.05);
+    }
+    .product-price {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--bg-glass);
+      backdrop-filter: blur(10px);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-full);
+      font-weight: 700;
+      color: var(--text-primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .step-card {
+      position: relative;
+      text-align: center;
+      padding: var(--spacing-lg);
+    }
+    .step-number {
+      width: 40px;
+      height: 40px;
+      background: var(--primary-color);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      margin: 0 auto var(--spacing-md);
+    }
+    @media (min-width: 768px) {
+      .step-card:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        top: 2rem;
+        right: -50%;
+        width: 100%;
+        height: 2px;
+        background: dashed 2px var(--border-color);
+        z-index: -1;
+      }
+    }
+
+    .testimonial-card {
+      padding: var(--spacing-xl);
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: var(--spacing-md);
+    }
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .faq-item {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--spacing-md);
+      overflow: hidden;
+    }
+    .faq-question {
+      padding: var(--spacing-lg);
+      background: var(--bg-secondary);
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-answer {
+      padding: 0 var(--spacing-lg);
+      max-height: 0;
+      transition: max-height 0.3s ease-out, padding 0.3s ease;
+    }
+    .faq-item.active .faq-answer {
+      padding: var(--spacing-md) var(--spacing-lg) var(--spacing-lg);
+      max-height: 200px;
+    }
+
+    .newsletter-section {
+      background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+      color: white;
+      text-align: center;
+      padding: var(--spacing-3xl) 0;
+      border-radius: var(--radius-xl);
+      margin: var(--spacing-3xl) var(--container-padding);
+    }
+    .newsletter-section h2, .newsletter-section p {
+      color: white;
+    }
+    .newsletter-form {
+      display: flex;
+      max-width: 500px;
+      margin: var(--spacing-lg) auto 0;
+      gap: var(--spacing-sm);
+    }
+    .newsletter-form input {
+      flex: 1;
+      padding: 1rem 1.5rem;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+    .newsletter-form input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .newsletter-form .btn {
+      background: white;
+      color: var(--primary-color);
+    }
+    
+    #backToTop {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--primary-color);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-normal);
+      z-index: 100;
+      box-shadow: var(--shadow-lg);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Page Loader -->
+  <div id="loader" class="loader-wrapper">
+    <div class="loader"></div>
+  </div>
+
+  <div class="announcement-bar">
+    <div class="container flex items-center justify-between gap-md" style="flex-wrap: wrap;">
+      <span class="announcement-pill"><i class="ph-fill ph-sparkle"></i> This project is made by Ansh Kumar, Class 10th B</span>
+      <div class="support-pills">
+        <a href="contact us.html" class="support-pill"><i class="ph ph-qrcode"></i> Scan / Demo Contact</a>
+        <a href="school-project.html" class="support-pill"><i class="ph ph-arrow-left"></i> Return to Project</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav id="navbar" class="navbar">
+    <div class="container nav-container">
+      <a href="index1.html" class="nav-logo">
+        <i class="ph-fill ph-infinity"></i>
+        RentSphere
+      </a>
+      
+      <div class="nav-links" id="navLinks">
+        <a href="index1.html" class="nav-link">Home</a>
+        <a href="browse.html" class="nav-link">Browse</a>
+        <a href="categories.html" class="nav-link">Categories</a>
+        <a href="become-lender.html" class="nav-link">Become a Lender</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="contact us.html" class="nav-link">Contact</a>
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+      </div>
+
+      <div class="nav-actions">
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle Dark Mode">
+          <i class="ph ph-moon"></i>
+        </button>
+        <button id="mobileMenuBtn" class="mobile-menu-btn">
+          <i class="ph ph-list"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container flex items-center justify-between">
+      <div class="hero-content reveal-left">
+        <div class="hero-badge mb-md animate-float">
+          <i class="ph-fill ph-crown"></i> Built as a premium startup prototype
+        </div>
+        <div class="hero-badge animate-float">
+          <i class="ph-fill ph-sparkle"></i> Launching in 120+ Cities
+        </div>
+        <h1>Rent Anything, <br><span class="text-gradient">Anytime.</span></h1>
+        <p class="mt-md" style="font-size: 1.25rem;">RentSphere is a student-built rental marketplace where owners earn from unused products and customers save money by renting only when they need to.</p>
+        <div class="flex gap-md mt-lg">
+          <a href="browse.html" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem;">
+            Explore Rentals <i class="ph ph-arrow-right"></i>
+          </a>
+          <a href="become-lender.html" class="btn btn-glass" style="padding: 1rem 2rem; font-size: 1.1rem;">
+            List Your Item
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-image-wrapper reveal-right">
+      <!-- Unsplash Camera/Tech image -->
+      <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=80" alt="Camera Equipment" class="hero-img">
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats-section">
+    <div class="container grid grid-cols-4 md:grid-cols-2 gap-xl text-center reveal">
+      <div class="stat-item stagger-1">
+        <h3 class="counter" data-target="10000">0</h3>
+        <p>Active Users</p>
+      </div>
+      <div class="stat-item stagger-2">
+        <h3 class="counter" data-target="5000">0</h3>
+        <p>Listed Products</p>
+      </div>
+      <div class="stat-item stagger-3">
+        <h3 class="counter" data-target="120">0</h3>
+        <p>Cities Covered</p>
+      </div>
+      <div class="stat-item stagger-4">
+        <h3>98%</h3>
+        <p>Customer Satisfaction</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories Section -->
+  <section class="section">
+    <div class="container">
+      <div class="text-center mb-xl reveal">
+        <h2>Explore <span class="text-gradient">Categories</span></h2>
+        <p>From study gear to event equipment, every category is built around everyday needs and real use cases.</p>
+      </div>
+      
+      <div class="grid grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-lg reveal">
+        <a href="browse.html?category=laptop" class="card category-card stagger-1 hover-lift">
+          <div class="category-icon"><i class="ph-fill ph-laptop"></i></div>
+          <h4>Laptops & Tech</h4>
+        </a>
+        <a href="browse.html?category=camera" class="card category-card stagger-2 hover-lift">
+          <div class="category-icon"><i class="ph-fill ph-camera"></i></div>
+          <h4>Cameras</h4>
+        </a>
+        <a href="browse.html?category=drone" class="card category-card stagger-3 hover-lift">
+          <div class="category-icon"><i class="ph-fill ph-airplane-tilt"></i></div>
+          <h4>Drones</h4>
+        </a>
+        <a href="browse.html?category=gaming" class="card category-card stagger-4 hover-lift">
+          <div class="category-icon"><i class="ph-fill ph-game-controller"></i></div>
+          <h4>Gaming</h4>
+        </a>
+        <a href="browse.html?category=projector" class="card category-card stagger-1 hover-lift">
+          <div class="category-icon"><i class="ph-fill ph-projector-screen"></i></div>
+          <h4>Projectors</h4>
+        </a>
+        <a href="browse.html?category=tools" class="card category-card stagger-2 hover-lift">
+          <div class="category-icon"><i class="ph-fill ph-wrench"></i></div>
+          <h4>Power Tools</h4>
+        </a>
+        <a href="browse.html?category=camping" class="card category-card stagger-3 hover-lift">
+          <div class="category-icon"><i class="ph-fill ph-tent"></i></div>
+          <h4>Camping</h4>
+        </a>
+        <a href="browse.html?category=bicycle" class="card category-card stagger-4 hover-lift">
+          <div class="category-icon"><i class="ph-fill ph-bicycle"></i></div>
+          <h4>Bicycles</h4>
+        </a>
+      </div>
+      
+      <div class="text-center mt-xl reveal">
+        <a href="categories.html" class="btn btn-secondary">View All Categories</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="section" style="background-color: var(--bg-secondary);">
+    <div class="container">
+      <div class="flex justify-between items-center mb-xl reveal">
+        <div>
+          <h2>Featured <span class="text-gradient">Rentals</span></h2>
+          <p>Curated listings that show how a real marketplace would feel in production.</p>
+        </div>
+        <a href="browse.html" class="btn btn-secondary">See All</a>
+      </div>
+      
+      <div class="grid grid-cols-3 lg:grid-cols-2 md:grid-cols-1 gap-lg reveal">
+        <!-- Product 1 -->
+        <div class="card stagger-1">
+          <div class="product-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=600&q=80" alt="Drone">
+            <div class="product-price">$45/day</div>
+          </div>
+          <div class="flex justify-between items-center mt-md">
+            <span class="badge">Drone</span>
+            <div class="flex items-center gap-xs" style="color: var(--accent-color);">
+              <i class="ph-fill ph-star"></i> 4.9
+            </div>
+          </div>
+          <h4 class="mt-sm">DJI Mavic Air 2</h4>
+          <p style="font-size: 0.875rem;">Listed by Alex M. • 2.5 miles away</p>
+          <a href="product-details.html" class="btn btn-primary w-full mt-sm" style="width: 100%;">Book Now</a>
+        </div>
+        
+        <!-- Product 2 -->
+        <div class="card stagger-2">
+          <div class="product-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1542393545-10f5cde2c810?auto=format&fit=crop&w=600&q=80" alt="MacBook">
+            <div class="product-price">$30/day</div>
+          </div>
+          <div class="flex justify-between items-center mt-md">
+            <span class="badge">Laptop</span>
+            <div class="flex items-center gap-xs" style="color: var(--accent-color);">
+              <i class="ph-fill ph-star"></i> 4.8
+            </div>
+          </div>
+          <h4 class="mt-sm">MacBook Pro 16" M2</h4>
+          <p style="font-size: 0.875rem;">Listed by Sarah T. • 1.2 miles away</p>
+          <a href="product-details.html" class="btn btn-primary w-full mt-sm" style="width: 100%;">Book Now</a>
+        </div>
+        
+        <!-- Product 3 -->
+        <div class="card stagger-3">
+          <div class="product-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?auto=format&fit=crop&w=600&q=80" alt="PS5">
+            <div class="product-price">$15/day</div>
+          </div>
+          <div class="flex justify-between items-center mt-md">
+            <span class="badge">Gaming</span>
+            <div class="flex items-center gap-xs" style="color: var(--accent-color);">
+              <i class="ph-fill ph-star"></i> 5.0
+            </div>
+          </div>
+          <h4 class="mt-sm">PlayStation 5 Console</h4>
+          <p style="font-size: 0.875rem;">Listed by Mike R. • 3.0 miles away</p>
+          <a href="product-details.html" class="btn btn-primary w-full mt-sm" style="width: 100%;">Book Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="section">
+    <div class="container text-center reveal">
+      <h2 class="mb-xl">How It <span class="text-gradient">Works</span></h2>
+      <div class="grid grid-cols-4 lg:grid-cols-2 md:grid-cols-1 gap-lg">
+        <div class="step-card stagger-1">
+          <div class="step-number">1</div>
+          <h4>Search Product</h4>
+          <p>Find exactly what you need using our powerful search and filters.</p>
+        </div>
+        <div class="step-card stagger-2">
+          <div class="step-number">2</div>
+          <h4>Book Online</h4>
+          <p>Select dates and pay securely through our platform.</p>
+        </div>
+        <div class="step-card stagger-3">
+          <div class="step-number">3</div>
+          <h4>Pick Up / Delivery</h4>
+          <p>Meet the owner or get it delivered to your doorstep.</p>
+        </div>
+        <div class="step-card stagger-4">
+          <div class="step-number">4</div>
+          <h4>Return Easily</h4>
+          <p>Return the item and leave a review for the community.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us -->
+  <section class="section" style="background-color: var(--bg-secondary);">
+    <div class="container reveal">
+      <h2 class="text-center mb-xl">Why Choose <span class="text-gradient">RentSphere</span></h2>
+      <div class="grid grid-cols-3 md:grid-cols-1 gap-lg">
+        <div class="card text-center hover-lift stagger-1">
+          <i class="ph-fill ph-wallet text-gradient" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+          <h4>Affordable</h4>
+          <p>Save money by renting premium products for a fraction of their retail price.</p>
+        </div>
+        <div class="card text-center hover-lift stagger-2">
+          <i class="ph-fill ph-shield-check text-gradient" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+          <h4>Secure Payments</h4>
+          <p>All transactions and deposits are safely held in escrow until completion.</p>
+        </div>
+        <div class="card text-center hover-lift stagger-3">
+          <i class="ph-fill ph-users text-gradient" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+          <h4>Verified Users</h4>
+          <p>Every lender and renter goes through an identity verification process.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section">
+    <div class="container reveal">
+      <h2 class="text-center mb-xl">What Our Users <span class="text-gradient">Say</span></h2>
+      <div class="grid grid-cols-2 md:grid-cols-1 gap-lg">
+        <div class="card testimonial-card stagger-1">
+          <div class="user-info">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80" alt="User" class="user-avatar">
+            <div>
+              <h4 style="margin: 0;">Jessica W.</h4>
+              <p style="margin: 0; font-size: 0.875rem;">Weekend traveler</p>
+            </div>
+          </div>
+          <p>"I rented a camera and tripod for my family trip in minutes. It felt simple, safe, and far smarter than buying gear I would only use once."</p>
+          <div class="flex gap-xs" style="color: var(--accent-color);">
+            <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+          </div>
+        </div>
+        <div class="card testimonial-card stagger-2">
+          <div class="user-info">
+            <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&w=150&q=80" alt="User" class="user-avatar">
+            <div>
+              <h4 style="margin: 0;">David L.</h4>
+              <p style="margin: 0; font-size: 0.875rem;">Part-time lender</p>
+            </div>
+          </div>
+          <p>"RentSphere helped me turn my drone into monthly income instead of letting it sit in a drawer. That is the kind of practical idea people understand immediately."</p>
+          <div class="flex gap-xs" style="color: var(--accent-color);">
+            <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="section" style="background-color: var(--bg-secondary);">
+    <div class="container reveal">
+      <h2 class="text-center mb-xl">Frequently Asked <span class="text-gradient">Questions</span></h2>
+      <div style="max-width: 800px; margin: 0 auto;">
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>How does RentSphere protect owners and renters?</span>
+            <i class="ph ph-caret-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>RentSphere is designed around verified users, security deposits, and clear handover rules so both sides know exactly how each rental works.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Why would someone rent instead of buy?</span>
+            <i class="ph ph-caret-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Because many products are needed for a short time only. Renting gives access without a large upfront cost and keeps valuable products in use.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Can students and small owners list items too?</span>
+            <i class="ph ph-caret-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Yes. In the real product idea, anyone with a useful product can list it and earn from the days it is not being used.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="newsletter-section reveal">
+    <div class="container">
+      <h2>Stay updated on the RentSphere build</h2>
+      <p>Get project updates, feature ideas, and startup progress from the RentSphere launch journey.</p>
+      <form class="newsletter-form" onsubmit="event.preventDefault();">
+        <input type="email" placeholder="Enter your email address" required>
+        <button type="submit" class="btn">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a href="index1.html" class="nav-logo" style="margin-bottom: 1rem;">
+            <i class="ph-fill ph-infinity"></i>
+            RentSphere
+          </a>
+          <p>Why buy when you can rent? RentSphere is the startup idea built to turn unused products into access and income.</p>
+          <div class="social-links">
+            <a href="#"><i class="ph-fill ph-twitter-logo"></i></a>
+            <a href="#"><i class="ph-fill ph-instagram-logo"></i></a>
+            <a href="#"><i class="ph-fill ph-facebook-logo"></i></a>
+            <a href="#"><i class="ph-fill ph-linkedin-logo"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <div class="footer-links">
+            <a href="browse.html">All Products</a>
+            <a href="categories.html">Categories</a>
+            <a href="become-lender.html">List an Item</a>
+            <a href="#">How it Works</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <div class="footer-links">
+            <a href="about.html">About Us</a>
+            <a href="contact us.html">Contact</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="school-project.html">School Project</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <div class="footer-links">
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Trust & Safety</a>
+            <a href="#">Rental Guidelines</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>Designed &amp; Developed by Ansh Kumar | Founder of RentSphere | School Business Project Prototype 2026</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

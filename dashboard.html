@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard | RentSphere</title>
+  
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+
+  <style>
+    body {
+      background: var(--bg-secondary);
+    }
+    .dashboard-layout {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      min-height: 100vh;
+      padding-top: 70px; /* space for navbar */
+    }
+
+    .sidebar {
+      background: var(--bg-primary);
+      border-right: 1px solid var(--border-color);
+      padding: var(--spacing-lg) 0;
+      position: sticky;
+      top: 70px;
+      height: calc(100vh - 70px);
+      overflow-y: auto;
+    }
+
+    .sidebar-menu {
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem var(--spacing-lg);
+      color: var(--text-secondary);
+      font-weight: 500;
+      transition: all var(--transition-fast);
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover, .sidebar-link.active {
+      color: var(--primary-color);
+      background: var(--primary-light);
+      border-left-color: var(--primary-color);
+    }
+    .sidebar-link i {
+      font-size: 1.25rem;
+    }
+
+    .main-content {
+      padding: var(--spacing-2xl);
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    .stat-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--spacing-lg);
+      margin-bottom: var(--spacing-2xl);
+    }
+    .stat-card {
+      background: var(--bg-primary);
+      padding: var(--spacing-lg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .stat-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+    .stat-info h3 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    .stat-info p {
+      margin: 0;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .panel {
+      background: var(--bg-primary);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      margin-bottom: var(--spacing-xl);
+    }
+    .panel-header {
+      padding: var(--spacing-lg);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .panel-header h3 {
+      margin: 0;
+    }
+    
+    .list-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--spacing-md) var(--spacing-lg);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .list-item:last-child {
+      border-bottom: none;
+    }
+    
+    .item-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .item-img {
+      width: 60px;
+      height: 60px;
+      border-radius: var(--radius-md);
+      object-fit: cover;
+    }
+
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .status-active { background: #d1fae5; color: #065f46; }
+    .status-pending { background: #fef3c7; color: #92400e; }
+
+    @media (max-width: 768px) {
+      .dashboard-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; } /* On real app, toggle via mobile menu */
+      .stat-cards { grid-template-columns: 1fr; }
+      .main-content { padding: var(--spacing-lg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav id="navbar" class="navbar" style="background: var(--bg-primary); border-bottom: 1px solid var(--border-color); padding: 0.75rem 0;">
+    <div class="container nav-container" style="max-width: 100%;">
+      <a href="index1.html" class="nav-logo">
+        <i class="ph-fill ph-infinity"></i> RentSphere
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="index1.html" class="nav-link">Home</a>
+        <a href="browse.html" class="nav-link">Browse</a>
+        <a href="categories.html" class="nav-link">Categories</a>
+        <a href="contact us.html" class="nav-link">Contact</a>
+      </div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="theme-toggle"><i class="ph ph-moon"></i></button>
+        <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; cursor: pointer;">
+          <img src="images/IMG_20260727_173549.jpg" alt="Profile" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;">
+          <span>Ansh Kumar</span>
+        </div>
+        <button id="mobileMenuBtn" class="mobile-menu-btn"><i class="ph ph-list"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-menu">
+        <a href="#" class="sidebar-link active"><i class="ph ph-squares-four"></i> Dashboard</a>
+        <a href="#" class="sidebar-link"><i class="ph ph-shopping-cart"></i> My Rentals</a>
+        <a href="#" class="sidebar-link"><i class="ph ph-clock-counter-clockwise"></i> Rental History</a>
+        <a href="#" class="sidebar-link"><i class="ph ph-heart"></i> Wishlist</a>
+        <a href="#" class="sidebar-link"><i class="ph ph-wallet"></i> Earnings</a>
+        <a href="#" class="sidebar-link"><i class="ph ph-bell"></i> Notifications <span class="badge" style="margin-left:auto; background: var(--danger-color); color: white;">2</span></a>
+        <a href="#" class="sidebar-link"><i class="ph ph-chat-circle"></i> Messages</a>
+        <a href="#" class="sidebar-link"><i class="ph ph-gear"></i> Profile Settings</a>
+        <a href="index1.html" class="sidebar-link" style="color: var(--danger-color); margin-top: 2rem;"><i class="ph ph-sign-out"></i> Log Out</a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content reveal">
+      <div class="dashboard-header">
+        <div>
+          <h2>Welcome back, Ansh!</h2>
+          <p>Your RentSphere prototype is tracking rentals, earnings, and project activity.</p>
+        </div>
+        <a href="become-lender.html" class="btn btn-primary"><i class="ph ph-plus"></i> Add Listing</a>
+      </div>
+
+      <!-- Stats -->
+      <div class="stat-cards">
+        <div class="stat-card hover-lift stagger-1">
+          <div class="stat-icon"><i class="ph-fill ph-shopping-bag"></i></div>
+          <div class="stat-info">
+            <h3>2</h3>
+            <p>Active Rentals</p>
+          </div>
+        </div>
+        <div class="stat-card hover-lift stagger-2">
+          <div class="stat-icon"><i class="ph-fill ph-wallet"></i></div>
+          <div class="stat-info">
+            <h3>$345.00</h3>
+            <p>Earnings this month</p>
+          </div>
+        </div>
+        <div class="stat-card hover-lift stagger-3">
+          <div class="stat-icon"><i class="ph-fill ph-star"></i></div>
+          <div class="stat-info">
+            <h3>4.9</h3>
+            <p>Average Rating</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Rentals -->
+      <div class="panel stagger-4">
+        <div class="panel-header">
+          <h3>Active Rentals (Renting Out)</h3>
+          <a href="#" style="color: var(--primary-color); font-weight: 500;">View All</a>
+        </div>
+        <div>
+          <div class="list-item">
+            <div class="item-info">
+              <img src="https://images.unsplash.com/photo-1542393545-10f5cde2c810?auto=format&fit=crop&w=150&q=80" alt="MacBook" class="item-img">
+              <div>
+                <h4 style="margin:0;">MacBook Pro 16" M2</h4>
+                <p style="margin:0; font-size: 0.875rem; color: var(--text-secondary);">Rented by: Emily C. • Return: Aug 12, 2026</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-md">
+              <span class="status-badge status-active">Active</span>
+              <button class="btn btn-secondary" style="padding: 0.5rem 1rem;">Message</button>
+            </div>
+          </div>
+          <div class="list-item">
+            <div class="item-info">
+              <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=150&q=80" alt="Camera" class="item-img">
+              <div>
+                <h4 style="margin:0;">Sony A7III + Lens</h4>
+                <p style="margin:0; font-size: 0.875rem; color: var(--text-secondary);">Rented by: David L. • Return: Aug 15, 2026</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-md">
+              <span class="status-badge status-pending">Pick Up Today</span>
+              <button class="btn btn-secondary" style="padding: 0.5rem 1rem;">Message</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- My Bookings -->
+      <div class="panel stagger-5">
+        <div class="panel-header">
+          <h3>My Bookings (Renting In)</h3>
+        </div>
+        <div>
+          <div class="list-item">
+            <div class="item-info">
+              <img src="https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?auto=format&fit=crop&w=150&q=80" alt="Tent" class="item-img">
+              <div>
+                <h4 style="margin:0;">4-Person Camping Tent</h4>
+                <p style="margin:0; font-size: 0.875rem; color: var(--text-secondary);">Owner: Alex M. • Date: Aug 20 - Aug 23, 2026</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-md">
+              <span class="status-badge" style="background: var(--bg-secondary); color: var(--text-secondary);">Upcoming</span>
+              <button class="btn btn-secondary" style="padding: 0.5rem 1rem;">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="footer mt-3xl text-center">
+    <p style="margin: 0;">Designed &amp; Developed by Ansh Kumar | Founder of RentSphere | School Business Project Prototype 2026</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DJI Mavic Air 2 | RentSphere</title>
+  
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+
+  <style>
+    .product-page {
+      padding-top: 100px;
+      padding-bottom: var(--spacing-3xl);
+    }
+    
+    .product-layout {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: var(--spacing-2xl);
+    }
+
+    .gallery {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-md);
+    }
+    .main-image {
+      width: 100%;
+      height: 500px;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+    }
+    .main-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .thumbnails {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--spacing-md);
+    }
+    .thumb {
+      height: 100px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      opacity: 0.7;
+      transition: all var(--transition-fast);
+    }
+    .thumb:hover, .thumb.active {
+      opacity: 1;
+      border-color: var(--primary-color);
+    }
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .product-info h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .rating-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      background: var(--primary-light);
+      color: var(--primary-color);
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-full);
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+
+    .booking-card {
+      background: var(--bg-secondary);
+      padding: var(--spacing-xl);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-color);
+      position: sticky;
+      top: 100px;
+    }
+    .price-large {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+    .price-large span {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--text-secondary);
+    }
+
+    .date-picker {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: var(--spacing-md);
+    }
+    .date-input {
+      flex: 1;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.75rem;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    .price-breakdown {
+      margin: var(--spacing-lg) 0;
+      padding-top: var(--spacing-lg);
+      border-top: 1px solid var(--border-color);
+    }
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      color: var(--text-secondary);
+    }
+    .price-row.total {
+      font-weight: 700;
+      color: var(--text-primary);
+      font-size: 1.25rem;
+      border-top: 1px solid var(--border-color);
+      padding-top: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .owner-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: var(--spacing-xl) 0;
+      padding: var(--spacing-md);
+      border-radius: var(--radius-lg);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+    }
+    .owner-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .review-item {
+      border-bottom: 1px solid var(--border-color);
+      padding: var(--spacing-md) 0;
+    }
+    .review-item:last-child {
+      border-bottom: none;
+    }
+
+    @media (max-width: 992px) {
+      .product-layout { grid-template-columns: 1fr; }
+      .booking-card { position: static; }
+    }
+  </style>
+</head>
+<body>
+  
+  <nav id="navbar" class="navbar scrolled">
+    <div class="container nav-container">
+      <a href="index1.html" class="nav-logo">
+        <i class="ph-fill ph-infinity"></i> RentSphere
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="index1.html" class="nav-link">Home</a>
+        <a href="browse.html" class="nav-link">Browse</a>
+        <a href="categories.html" class="nav-link">Categories</a>
+        <a href="contact us.html" class="nav-link">Contact</a>
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+      </div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="theme-toggle"><i class="ph ph-moon"></i></button>
+        <button id="mobileMenuBtn" class="mobile-menu-btn"><i class="ph ph-list"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container product-page reveal">
+    <div class="product-layout">
+      <!-- Left Column: Details -->
+      <div>
+        <div class="gallery">
+          <div class="main-image">
+            <img src="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1000&q=80" alt="Drone Main">
+          </div>
+          <div class="thumbnails">
+            <div class="thumb active"><img src="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=300&q=80" alt="Thumb"></div>
+            <div class="thumb"><img src="https://images.unsplash.com/photo-1579820063544-a0d4c82c6d48?auto=format&fit=crop&w=300&q=80" alt="Thumb"></div>
+            <div class="thumb"><img src="https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&w=300&q=80" alt="Thumb"></div>
+            <div class="thumb"><img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=300&q=80" alt="Thumb"></div>
+          </div>
+        </div>
+
+        <div class="product-info mt-xl">
+          <div class="flex items-center gap-sm mb-sm">
+            <span class="badge">Drone</span>
+            <span class="rating-badge"><i class="ph-fill ph-star"></i> 4.9 (124 Reviews)</span>
+          </div>
+          <h1>DJI Mavic Air 2 - Fly More Combo</h1>
+          <p class="text-secondary"><i class="ph ph-map-pin"></i> Downtown Seattle (2.5 miles away)</p>
+
+          <h3 class="mt-xl">Description</h3>
+          <p>The DJI Mavic Air 2 takes power and portability to the next level, offering advanced features in a compact form factor. Intelligent shooting functions and excellent image quality put cinematic aerial masterpieces within reach.</p>
+          <p>Includes:</p>
+          <ul>
+            <li>• Drone and Controller</li>
+            <li>• 3 Intelligent Flight Batteries</li>
+            <li>• ND Filters Set (ND16/64/256)</li>
+            <li>• Carrying Case</li>
+          </ul>
+
+          <div class="owner-card">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80" alt="Owner" class="owner-avatar">
+            <div>
+              <h4 style="margin: 0;">Alex M.</h4>
+              <p style="margin: 0; font-size: 0.875rem;"><i class="ph-fill ph-shield-check" style="color: var(--success-color);"></i> Verified Identity • Member since 2024</p>
+            </div>
+            <button class="btn btn-secondary" style="margin-left: auto;">Message</button>
+          </div>
+
+          <h3 class="mt-xl">Reviews</h3>
+          <div class="review-item">
+            <div class="flex items-center justify-between mb-sm">
+              <div class="flex items-center gap-sm">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=50&q=80" alt="User" style="width: 40px; height: 40px; border-radius: 50%;">
+                <h4 style="margin:0;">Jessica W.</h4>
+              </div>
+              <span class="text-secondary" style="font-size: 0.875rem;">Oct 12, 2025</span>
+            </div>
+            <div class="flex gap-xs mb-xs" style="color: var(--accent-color); font-size: 0.875rem;">
+              <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+            </div>
+            <p style="font-size: 0.875rem;">Amazing drone! Alex was great to work with and provided a quick tutorial on how to use it safely.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Booking Widget -->
+      <div>
+        <div class="booking-card hover-lift">
+          <div class="price-large">$45<span> / day</span></div>
+          <p class="text-secondary" style="font-size: 0.875rem; margin-bottom: var(--spacing-lg);">Refundable Security Deposit: $200</p>
+          
+          <div class="date-picker">
+            <div class="w-full">
+              <label style="font-size: 0.75rem; font-weight: 600;">Pick Up Date</label>
+              <input type="date" class="date-input" value="2026-08-01">
+            </div>
+            <div class="w-full">
+              <label style="font-size: 0.75rem; font-weight: 600;">Return Date</label>
+              <input type="date" class="date-input" value="2026-08-04">
+            </div>
+          </div>
+
+          <button class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1.1rem;">Book Now</button>
+          <p class="text-center text-tertiary mt-sm" style="font-size: 0.75rem;">You won't be charged yet</p>
+
+          <div class="price-breakdown">
+            <div class="price-row">
+              <span>$45 x 3 days</span>
+              <span>$135</span>
+            </div>
+            <div class="price-row">
+              <span>Service Fee</span>
+              <span>$15</span>
+            </div>
+            <div class="price-row total">
+              <span>Total</span>
+              <span>$150</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer mt-3xl text-center">
+    <p style="margin: 0;">Designed &amp; Developed by Ansh Kumar | Founder of RentSphere | School Business Project Prototype 2026</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

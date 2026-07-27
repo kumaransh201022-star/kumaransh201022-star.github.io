@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Categories | RentSphere</title>
+  
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+
+  <style>
+    .categories-header {
+      padding: 150px 0 100px;
+      text-align: center;
+      background: linear-gradient(to bottom, var(--bg-secondary), var(--bg-primary));
+    }
+    
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--spacing-xl);
+      padding: var(--spacing-3xl) 0;
+    }
+
+    .category-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--spacing-2xl) var(--spacing-lg);
+      text-align: center;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      cursor: pointer;
+      transition: all var(--transition-normal);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .category-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(135deg, var(--primary-light), transparent);
+      opacity: 0;
+      transition: opacity var(--transition-normal);
+    }
+    .category-card:hover::before {
+      opacity: 1;
+    }
+
+    .category-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary-color);
+    }
+
+    .cat-icon-wrapper {
+      width: 80px;
+      height: 80px;
+      background: var(--bg-primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: var(--spacing-lg);
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      z-index: 1;
+      transition: all var(--transition-normal);
+    }
+
+    .category-card:hover .cat-icon-wrapper {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .cat-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      position: relative;
+      z-index: 1;
+    }
+    .cat-count {
+      color: var(--text-tertiary);
+      font-size: 0.875rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 1024px) {
+      .category-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .category-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .category-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav id="navbar" class="navbar scrolled">
+    <div class="container nav-container">
+      <a href="index1.html" class="nav-logo">
+        <i class="ph-fill ph-infinity"></i> RentSphere
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="index1.html" class="nav-link">Home</a>
+        <a href="browse.html" class="nav-link">Browse</a>
+        <a href="categories.html" class="nav-link" style="color: var(--text-primary);">Categories</a>
+        <a href="become-lender.html" class="nav-link">Become a Lender</a>
+        <a href="contact us.html" class="nav-link">Contact</a>
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+      </div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="theme-toggle"><i class="ph ph-moon"></i></button>
+        <button id="mobileMenuBtn" class="mobile-menu-btn"><i class="ph ph-list"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <header class="categories-header reveal">
+    <div class="container">
+      <h1>All <span class="text-gradient">Categories</span></h1>
+      <p style="font-size: 1.25rem; max-width: 600px; margin: 0 auto;">Whatever you need, you can rent it here. Explore thousands of items listed by our community.</p>
+    </div>
+  </header>
+
+  <section class="container">
+    <div class="category-grid reveal">
+      
+      <a href="browse.html?cat=electronics" class="category-card stagger-1">
+        <div class="cat-icon-wrapper"><i class="ph-fill ph-laptop"></i></div>
+        <div class="cat-title">Laptops & Tech</div>
+        <div class="cat-count">1,240 items</div>
+      </a>
+      
+      <a href="browse.html?cat=cameras" class="category-card stagger-2">
+        <div class="cat-icon-wrapper"><i class="ph-fill ph-camera"></i></div>
+        <div class="cat-title">Cameras & Lenses</div>
+        <div class="cat-count">850 items</div>
+      </a>
+      
+      <a href="browse.html?cat=drones" class="category-card stagger-3">
+        <div class="cat-icon-wrapper"><i class="ph-fill ph-airplane-tilt"></i></div>
+        <div class="cat-title">Drones</div>
+        <div class="cat-count">420 items</div>
+      </a>
+
+      <a href="browse.html?cat=gaming" class="category-card stagger-4">
+        <div class="cat-icon-wrapper"><i class="ph-fill ph-game-controller"></i></div>
+        <div class="cat-title">Gaming Consoles</div>
+        <div class="cat-count">930 items</div>
+      </a>
+
+      <a href="browse.html?cat=tools" class="category-card stagger-1">
+        <div class="cat-icon-wrapper"><i class="ph-fill ph-wrench"></i></div>
+        <div class="cat-title">Power Tools</div>
+        <div class="cat-count">1,500 items</div>
+      </a>
+
+      <a href="browse.html?cat=camping" class="category-card stagger-2">
+        <div class="cat-icon-wrapper"><i class="ph-fill ph-tent"></i></div>
+        <div class="cat-title">Camping & Outdoor</div>
+        <div class="cat-count">670 items</div>
+      </a>
+
+      <a href="browse.html?cat=party" class="category-card stagger-3">
+        <div class="cat-icon-wrapper"><i class="ph-fill ph-confetti"></i></div>
+        <div class="cat-title">Party & Events</div>
+        <div class="cat-count">340 items</div>
+      </a>
+
+      <a href="browse.html?cat=sports" class="category-card stagger-4">
+        <div class="cat-icon-wrapper"><i class="ph-fill ph-bicycle"></i></div>
+        <div class="cat-title">Bicycles & Sports</div>
+        <div class="cat-count">890 items</div>
+      </a>
+
+      <a href="browse.html?cat=audio" class="category-card stagger-1">
+        <div class="cat-icon-wrapper"><i class="ph-fill ph-speaker-hifi"></i></div>
+        <div class="cat-title">Audio & DJ</div>
+        <div class="cat-count">410 items</div>
+      </a>
+
+      <a href="browse.html?cat=home" class="category-card stagger-2">
+        <div class="cat-icon-wrapper"><i class="ph-fill ph-armchair"></i></div>
+        <div class="cat-title">Furniture & Home</div>
+        <div class="cat-count">250 items</div>
+      </a>
+
+      <a href="browse.html?cat=vehicles" class="category-card stagger-3">
+        <div class="cat-icon-wrapper"><i class="ph-fill ph-car"></i></div>
+        <div class="cat-title">Vehicles & Trailers</div>
+        <div class="cat-count">120 items</div>
+      </a>
+
+      <a href="browse.html?cat=books" class="category-card stagger-4">
+        <div class="cat-icon-wrapper"><i class="ph-fill ph-books"></i></div>
+        <div class="cat-title">Textbooks & Books</div>
+        <div class="cat-count">1,100 items</div>
+      </a>
+      
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer mt-3xl">
+    <div class="container text-center text-tertiary">
+      <p>Designed &amp; Developed by Ansh Kumar | Founder of RentSphere | School Business Project Prototype 2026</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

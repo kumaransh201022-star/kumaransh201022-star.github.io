@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse Products | RentSphere</title>
+  
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+
+  <style>
+    .browse-header {
+      padding-top: 100px;
+      padding-bottom: var(--spacing-xl);
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .search-bar-container {
+      display: flex;
+      gap: 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .search-input-wrapper {
+      flex: 1;
+      position: relative;
+    }
+    .search-input-wrapper i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-tertiary);
+      font-size: 1.25rem;
+    }
+    .search-input-wrapper input {
+      width: 100%;
+      padding: 1rem 1rem 1rem 3rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-color);
+      background: var(--bg-primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .browse-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: var(--spacing-2xl);
+      padding: var(--spacing-3xl) 0;
+    }
+
+    .filter-sidebar {
+      background: var(--bg-secondary);
+      padding: var(--spacing-lg);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-color);
+      height: fit-content;
+      position: sticky;
+      top: 100px;
+    }
+
+    .filter-group {
+      margin-bottom: var(--spacing-lg);
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: var(--spacing-lg);
+    }
+    .filter-group:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .filter-title {
+      font-weight: 600;
+      margin-bottom: var(--spacing-md);
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+    .checkbox-item input {
+      width: 1.1rem;
+      height: 1.1rem;
+      accent-color: var(--primary-color);
+    }
+
+    .price-range {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .price-range input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    .sort-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--spacing-xl);
+    }
+    .sort-select {
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--spacing-lg);
+    }
+
+    .product-img-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 66%;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--spacing-md);
+    }
+    .product-img-wrapper img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform var(--transition-slow);
+    }
+    .card:hover .product-img-wrapper img {
+      transform: scale(1.05);
+    }
+    .product-price {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--bg-glass);
+      backdrop-filter: blur(10px);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-full);
+      font-weight: 700;
+      color: var(--text-primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: var(--spacing-2xl);
+    }
+    .page-btn {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .page-btn.active, .page-btn:hover {
+      background: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+
+    @media (max-width: 1024px) {
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .browse-layout { grid-template-columns: 1fr; }
+      .filter-sidebar { position: static; }
+      .product-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Page Loader -->
+  <div id="loader" class="loader-wrapper">
+    <div class="loader"></div>
+  </div>
+
+  <!-- Navbar -->
+  <nav id="navbar" class="navbar scrolled">
+    <div class="container nav-container">
+      <a href="index1.html" class="nav-logo">
+        <i class="ph-fill ph-infinity"></i>
+        RentSphere
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="index1.html" class="nav-link">Home</a>
+        <a href="browse.html" class="nav-link" style="color: var(--text-primary);">Browse</a>
+        <a href="categories.html" class="nav-link">Categories</a>
+        <a href="become-lender.html" class="nav-link">Become a Lender</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="contact us.html" class="nav-link">Contact</a>
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+      </div>
+      <div class="nav-actions">
+        <button id="themeToggle" class="theme-toggle">
+          <i class="ph ph-moon"></i>
+        </button>
+        <button id="mobileMenuBtn" class="mobile-menu-btn"><i class="ph ph-list"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header / Search -->
+  <header class="browse-header">
+    <div class="container text-center reveal">
+      <div class="badge mb-md">Browse live inventory</div>
+      <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Find the right <span class="text-gradient">rental</span> for the job</h1>
+      <p class="text-secondary" style="max-width: 760px; margin: 0 auto 1.5rem;">Search verified listings across cameras, laptops, projectors, tools, and more. The catalog is designed to feel like a real marketplace with filters that actually respond.</p>
+      <div class="search-bar-container">
+        <div class="search-input-wrapper">
+          <i class="ph ph-magnifying-glass"></i>
+          <input id="browseSearch" type="text" placeholder="Search cameras, laptops, tents, drones..." aria-label="Search rentals">
+        </div>
+        <button id="browseSearchBtn" class="btn btn-primary" style="padding: 1rem 2rem;">Search</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Layout -->
+  <div class="container browse-layout">
+    
+    <!-- Sidebar Filters -->
+    <aside class="filter-sidebar reveal-left">
+      <div class="filter-group">
+        <div class="filter-title">Categories</div>
+        <label class="checkbox-item"><input type="checkbox" value="camera" checked> Cameras & Lenses</label>
+        <label class="checkbox-item"><input type="checkbox" value="laptop" checked> Laptops & Tech</label>
+        <label class="checkbox-item"><input type="checkbox" value="drone" checked> Drones</label>
+        <label class="checkbox-item"><input type="checkbox" value="gaming" checked> Gaming Consoles</label>
+        <label class="checkbox-item"><input type="checkbox" value="projector" checked> Projectors</label>
+        <label class="checkbox-item"><input type="checkbox" value="tools" checked> Power Tools</label>
+        <label class="checkbox-item"><input type="checkbox" value="camping" checked> Camping Gear</label>
+        <label class="checkbox-item"><input type="checkbox" value="bicycle" checked> Bicycles</label>
+      </div>
+      
+      <div class="filter-group">
+        <div class="filter-title">Price Range (/day)</div>
+        <div class="price-range">
+          <input id="minPrice" type="number" placeholder="Min $">
+          <span>-</span>
+          <input id="maxPrice" type="number" placeholder="Max $">
+        </div>
+      </div>
+      
+      <div class="filter-group">
+        <div class="filter-title">Distance</div>
+        <input id="distanceFilter" type="range" min="1" max="50" value="12" style="width: 100%; accent-color: var(--primary-color);">
+        <div class="flex justify-between" style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.5rem;">
+          <span>1 mi</span>
+          <span>10 mi</span>
+          <span>50+ mi</span>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-title">Rating</div>
+        <label class="checkbox-item"><input type="radio" name="ratingFilter" value="4" checked> 4 Stars & Up</label>
+        <label class="checkbox-item"><input type="radio" name="ratingFilter" value="3"> 3 Stars & Up</label>
+        <label class="checkbox-item"><input type="radio" name="ratingFilter" value="0"> Any rating</label>
+      </div>
+      
+      <button id="applyFiltersBtn" class="btn btn-primary" style="width: 100%;">Apply Filters</button>
+    </aside>
+
+    <!-- Product Grid -->
+    <main class="reveal-right">
+      <div class="sort-bar">
+        <div id="resultsMeta">Showing 0 rentals</div>
+        <select id="sortSelect" class="sort-select" aria-label="Sort rentals">
+          <option value="recommended">Recommended</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="distance">Distance: Nearest First</option>
+          <option value="rating">Highest Rated</option>
+        </select>
+      </div>
+
+      <div id="productGrid" class="product-grid"></div>
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <button class="page-btn"><i class="ph ph-caret-left"></i></button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <button class="page-btn">...</button>
+        <button class="page-btn"><i class="ph ph-caret-right"></i></button>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a href="index1.html" class="nav-logo" style="margin-bottom: 1rem;">
+            <i class="ph-fill ph-infinity"></i>RentSphere
+          </a>
+          <p>The premium online marketplace to rent and lend items securely.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <div class="footer-links">
+            <a href="browse.html">All Products</a>
+            <a href="categories.html">Categories</a>
+            <a href="become-lender.html">List an Item</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <div class="footer-links">
+            <a href="about.html">About Us</a>
+            <a href="contact us.html">Contact</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>Designed &amp; Developed by Ansh Kumar | Founder of RentSphere | School Business Project Prototype 2026</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
